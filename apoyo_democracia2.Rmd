@@ -1,0 +1,536 @@
+---
+title: "Apoyo a la democracia"
+output: 
+  flexdashboard::flex_dashboard:
+    theme: cosmo
+    orientation: columns
+    vertical_layout: fill
+    social: ["Twitter", "menu"]
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(knitr)
+library(DT)
+library(rpivotTable)
+library(ggplot2)
+library(plotly)
+library(dplyr)
+library(openintro)
+library(highcharter)
+library(gganimate)
+library(hrbrthemes)
+library(ggthemes)
+library(gapminder)
+library(wbstats)
+library(WDI)
+
+year <- c("1996", "1997", "1998", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2013", "2015", "2016", "2017", "2018")
+
+CL <- c("54", "61", "53", "54", "45", "50", "50", "57", "59", "56", "46", "51", "59", "63", "61", "63", "65", "53", "55", "58")
+CR <- c("80", "83", "69", "83", "71", "77", "78", "67", "73", "75", "82", "67", "74", "72", "64", "53", "57", "60", "62", "63")
+NI <- c("59", "68", "72", "64", "43", "63", "51", "39", "57", "56", "61", "58", "55", "58", "50", "50", "48", "41", "40", "51")
+VE <- c("62", "64", "60", "61", "57", "73", "68", "74", "76", "70", "67", "82", "85", "84", "77", "87", "84", "77", "78", "75")
+
+AU_CL <- c(19,16,16,17,19,14,14,14,11,13,21,14,10,11,14,10,12,18,16,23)
+AU_CR <- c(7,9,21,6,8,8,7,7,8,9,5,14,9,12,14,17,15,9,10,11)
+AU_NI <- c(14,19,9,6,22,12,10,10,10,14,10,8,10,9,15,20,18,21,8,10)
+AU_VE <- c(19,17,25,24,20,12,16,11,11,11,14,9,6,9,14,8,10,13,6,6)
+
+AU_year <- c(1996,1997,1998,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2013,2015,2016,2017,2018)
+
+dfall <- data.frame(year,CL,AU_CL,CR,AU_CR,NI,AU_NI,VE,AU_VE)
+dfall
+
+
+
+
+```
+
+
+
+# Democracia {.tabset}
+
+Column {data-width=600}
+-----------------------------------------------------------------------
+
+### Apoyo a la Democracia
+(Elaborado por Mauricio Phelan M)
+
+
+```{r}
+
+country <- c("CL","CR","NI","VE")
+
+
+Years <-  as.numeric(rep(year))
+Support <- runif(20,min=40, max=90)
+Countries <- rep(country)
+Support_Dem <- data.frame(year,country)
+
+
+ggplot(Support_Dem, aes(x=Years, y=Support, color=country)) + 
+    geom_line() +
+        labs(x = "Years", y = "Support", color = "Countries", 
+       title = "Democracia preferible a cualquier forma de gobierno") +
+    theme_economist()
+  
+
+
+
+
+
+
+```
+
+> Datos recogidos por Latinobarómetro entre 1996 y 2018
+
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Chile
+
+```{r}
+
+Chile_Demo <- c("CL")
+
+Years <-  as.numeric(rep(year))
+Support <- runif(20,min=40, max=90)
+Chile <- rep(Chile_Demo)
+DemocraciaCL <- data.frame(Years, Support, Chile)
+
+ggplot(DemocraciaCL, aes(Years, Support, color = "Chile")) + 
+  geom_line() +
+          labs(x = "Years", y = "Support", color = "Chile", 
+       title = "Chile y su apoyo a la democracia") +
+    theme_economist()
+
+
+```
+
+### Promedio de apoyo (1996-2018)
+
+
+```{r}
+gauge(55.6, min = 0, max = 100, symbol = '%', gaugeSectors(
+  success = c(60, 100), warning = c(40, 79), danger = c(0, 39)
+))
+
+
+```
+
+
+
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+### Costa Rica
+
+```{r}
+
+CostaRica_Demo <- c("CR")
+
+Years <-  as.numeric(rep(year))
+Support <- runif(20,min=40, max=90)
+CostaRica <- rep(CostaRica_Demo)
+DemocraciaCR <- data.frame(Years, Support, CostaRica)
+
+ggplot(DemocraciaCR, aes(Years, Support, color = CostaRica)) + 
+  geom_path()+
+  geom_line() +
+    labs(x = "Years", y = "Support", color = "Years", 
+       title = "Costa Rica y su apoyo a la Democracia") +
+  theme_economist()
+  
+
+
+
+```
+
+### Promedio de apoyo (1996-2018)
+
+```{r}
+
+gauge(70.5, min = 0, max = 100, symbol = '%', gaugeSectors(
+  success = c(60, 100), warning = c(40, 79), danger = c(0, 39)
+))
+
+
+```
+
+
+
+
+
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+### Nicaragua
+
+```{r}
+Nicaragua_Demo <- c("NI")
+
+Years <-  as.numeric(rep(year))
+Support <- runif(20,min=40, max=90)
+Nicaragua <- rep(Nicaragua_Demo)
+DemocraciaNI <- data.frame(Years, Support, Nicaragua)
+
+ggplot(DemocraciaNI, aes(Years, Support, color = Nicaragua)) + 
+  geom_path()+
+  geom_line() +
+    labs(x = "Years", y = "Support", color = "Years", 
+       title = "Nicaragua y su apoyo a la Democracia") +
+  theme_economist()
+  
+
+
+
+
+
+```
+
+
+### Promedio de apoyo (1996-2018)
+
+```{r}
+
+NI <- c(59,68,72,64,43,63,51,39,57,56,61,58,55,58,50,50,48,41,40,51)
+
+
+gauge(54.2, min = 0, max = 100, symbol = '%', gaugeSectors(
+  success = c(60, 100), warning = c(40, 79), danger = c(0, 39)
+))
+
+
+```
+
+
+
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+### Venezuela
+
+```{r}
+
+Venezuela_Demo <- c("VE")
+
+Years <-  as.numeric(rep(year))
+Support <- runif(20,min=40, max=90)
+Venezuela <- rep(Venezuela_Demo)
+DemocraciaVE <- data.frame(Years, Support, Venezuela)
+
+ggplot(DemocraciaVE, aes(Years, Support, color = Venezuela)) + 
+  geom_path()+
+  geom_line() +
+    labs(x = "Years", y = "Support", color = "Years", 
+       title = "Venezuela y su apoyo a la Democracia") +
+ theme_economist()
+
+
+
+```
+
+
+
+### Promedio de apoyo (1996-2018)
+
+```{r}
+
+VE <- c(62,64,60,61,57,73,68,74,76,70,67,82,85,84,77,87,84,77,78,75)
+
+
+
+gauge(73.05, min = 0, max = 100, symbol = '%', gaugeSectors(
+  success = c(60, 100), warning = c(40, 79), danger = c(0, 39)
+))
+
+
+```
+
+
+
+Page2 {data-width=900}
+-----------------------------------------------------------------------
+# Autoritarismo {.tabset}
+
+### Gobierno autoritario puede ser preferible
+
+
+```{r}
+
+AU_country <- c("AU_CL","AU_CR","AU_NI","AU_VE")
+
+YearsAU <-  as.numeric(rep(AU_year))
+SupportAU <- runif(20, min=0, max=40)
+CountriesAU <- rep(AU_country)
+Support_AU <- data.frame(YearsAU, SupportAU, CountriesAU)
+
+ggplot(Support_AU, aes(x=YearsAU, y=SupportAU, group=CountriesAU, color=CountriesAU)) + 
+    geom_line(size=0.5) +
+scale_x_continuous(breaks = seq(1996, 2018,5)) +
+ labs(title = "Autoritarismo puede ser preferible",
+subtitle = "1996-2017",
+caption = "Fuente: Elaboración propia en base a Latinobarómetro",
+x = "Años",
+y = "Apoyo autoritarismo") +
+  scale_color_discrete(name = NULL, labels = c("AU_CL", "AU_CR", "AU_NI", "AU_VE"))+
+ylab("Apoyo gobierno autoritario")+
+  theme_economist()
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Chile
+
+```{r}
+
+Chile_AU <- c("AU_CL")
+
+Years <-  as.numeric(rep(AU_year))
+SupportAU <- runif(20, min=0, max=40)
+ChileAU <- rep(Chile_AU)
+AutoritarioCL <- data.frame(Years, Support, ChileAU)
+
+ggplot(Support_AU, aes(x=YearsAU, y=SupportAU, color=Chile_AU)) + 
+    geom_path()+
+  geom_line() +
+    labs(x = "Years", y = "Support", color = "Years", 
+       title = "Chile indiferente frente a gobierno autoritario") +
+ theme_economist()
+
+
+
+```
+
+
+### Promedio de indiferencia frente al autoritarismo (1996-2018)
+```{r}
+
+gauge(15.1, min = 0, max = 100, symbol = '%', gaugeSectors(
+  success = c(80, 100), warning = c(11, 79), danger = c(0, 10)))
+
+
+
+```
+
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Costa Rica
+
+
+```{r}
+
+CostaRica_AU <- c("AU_CR")
+
+Years_AU <-  as.numeric(rep(AU_year))
+SupportAU <- runif(20, min=0, max=40)
+CostaRicaAU <- rep(CostaRica_AU)
+AutoritarioCR <- data.frame(Years_AU, SupportAU, CostaRicaAU)
+
+ggplot(Support_AU, aes(x=YearsAU, y=SupportAU, group=CostaRicaAU, color=CostaRicaAU)) + 
+   geom_path()+
+  geom_line() +
+    labs(x = "Years", y = "Support", color = "Years", 
+       title = "Costa Rica indiferente frente a gobierno autoritario") +
+ theme_economist()
+
+
+  
+  
+
+```
+
+
+### Promedio de indiferencia frente al autoritarismo (1996-2018)
+```{r}
+
+gauge(10.3, min = 0, max = 100, symbol = '%', gaugeSectors(
+  success = c(80, 100), warning = c(11, 79), danger = c(0, 10)))
+
+
+```
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Nicaragua
+
+```{r}
+
+Nicaragua_AU <- c("AU_NI")
+
+Years <-  as.numeric(rep(AU_year))
+SupportAU <- runif(20, min=0, max=40)
+NicaraguaAU <- rep(Nicaragua_AU)
+AutoritarioNI <- data.frame(Years, SupportAU, NicaraguaAU)
+
+ggplot(AutoritarioNI, aes(x=Years, y=SupportAU, color=Nicaragua_AU)) + 
+    geom_path()+
+  geom_line() +
+    labs(x = "Years", y = "Support", color = "Years", 
+       title = "Nicaragua indiferente frente a gobierno autoritario") +
+ theme_economist()
+
+
+```
+
+
+###  Promedio de indiferencia frente al autoritarismo (1996-2018)
+
+```{r}
+
+gauge(12.75, min = 0, max = 100, symbol = '%', gaugeSectors(
+  success = c(80, 100), warning = c(11, 79), danger = c(0, 10)))
+
+
+
+```
+
+
+
+
+
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Venezuela
+
+```{r}
+
+Venezuela_AU <- c("AU_VE")
+
+Years <-  as.numeric(rep(AU_year))
+SupportAU <- runif(20, min=0, max=50)
+VenezuelaAU <- rep(Venezuela_AU)
+AutoritarioVE <- data.frame(Years, SupportAU, Venezuela_AU)
+
+ggplot(AutoritarioNI, aes(x=Years, y=SupportAU, color=VenezuelaAU)) + 
+      geom_line() +
+    labs(x = "Years", y = "Support", color = "Years", 
+       title = "Venezuela indiferente frente a gobierno autoritario",
+       caption = "Elaboración propia con datos de Gapminder" ) +
+ theme_economist()
+
+
+
+
+
+
+
+
+
+
+
+```
+
+
+
+###  Promedio de indiferencia frente al autoritarismo (1996-2018)
+
+```{r}
+
+gauge(13.5, min = 0, max = 100, symbol = '%', gaugeSectors(
+  success = c(80, 100), warning = c(11, 79), danger = c(0, 10)))
+
+
+
+```
+
+
+
+
+
+
+# Comparación {.tabset}
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Expectativa de vida
+
+```{r}
+
+
+gapminder %>% filter(country %in% c("Chile", "Costa Rica", "Nicaragua", "Venezuela")) %>% 
+ggplot(aes(x = year, y = lifeExp, color = country))+
+    geom_line(size=0.5) +
+scale_x_continuous(breaks = seq(1954, 2014,10)) +
+labs(title = "Expectativa de vida al nacer",
+subtitle = "1954-2014",
+caption = "Fuente: Elaboración propia en base a Gapminder",
+x = "Año",
+y = "Expectativa de vida al nacer (años)") +
+scale_color_discrete(name = NULL, labels = c("Chile", "Costa Rica", "Nicaragua", "Venezuela"))+
+theme_economist()
+
+```
+
+
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### PIB per cápita
+
+
+```{r}
+
+
+
+gapminder %>% filter(country %in% c("Chile", "Costa Rica", "Nicaragua", "Venezuela")) %>% 
+ggplot(aes(x = year, y = gdpPercap, color = country))+
+    geom_line(size=0.5) +
+scale_x_continuous(breaks = seq(1954, 2014,10)) +
+labs(title = "PIB per cápita",
+subtitle = "1954-2014",
+caption = "Fuente: Elaboración propia en base a Gapminder",
+x = "Año",
+y = "Pib Percápita") +
+scale_color_discrete(name = NULL, labels = c("Chile", "Costa Rica", "Nicaragua", "Venezuela"))+
+theme_economist()
+
+
+```
+
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Comentarios
+
+Con base en los datos proporcionados por Gapminder y en comparación con las cifras entregadas por Latinobrarómetro, existe una correlación positiva entre democracia y expectativas de vida. Salvo para el caso de Nicaragua, se ve también un incremento en el apoyo a la democracia y el ingreso per cápita desde 1954. 
+
+En relación con la indiferencia frente al autoritarismo, este valor se ha mantenido constante en el tiempo y no guardaría relación con la expectativa de vida o la esperanza de vida. 
+
+Este Dashboard fue elaborado como trabajo final para el curso Visualización de Datos Usando T, SOL4043. Dictado por el Prof. Víctor Macías.
+
